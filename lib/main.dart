@@ -1,17 +1,17 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-void main() => runApp(new MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
+    return MaterialApp(
       title: 'Flutter Demo',
-      theme: new ThemeData(
+      theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: new MyHomePage(title: 'Play With Me! 😁'),
+      home: MyHomePage(title: 'Play With Me! 😁'),
     );
   }
 }
@@ -21,72 +21,57 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState createState() => new _MyHomePageState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  @override
-  void initState() {
-    super.initState();
-    final StreamController ctrl = StreamController();
-
-    
-    // Initialize a listener that prints the data
-    ctrl.stream.listen((data) {
-      print("recieved data: $data");
-    }, onDone: () {
-      print("Stream done");
-    }, onError: () {
-      print("Error occured");
-    });
-
-    // We here add the data that will flow inside the stream    
-    ctrl.sink.add('my name');
-    ctrl.sink.add(1234);
-    ctrl.sink.add({'a': 'element A', 'b': 'element B'});
-    ctrl.sink.add(123.45);
-
-    // Close the StreamController when finished
-    ctrl.close();
-  }
-
-  Future<String> inputData() async {
-    print("Fetched Data");
-    return "This a test data";
-  }
-
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  TextEditingController input = TextEditingController();
+  String text = '';
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(widget.title),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Let's Test This!"),
       ),
-      body: new Center(
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new Text(
-              'You have pushed the button this many times:',
-            ),
-            new Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
+      body: Center(
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 250,
+                    child: TextField(
+                      key: Key('textfield'),
+                      controller: input,
+                    ),
+                  ),
+                  RaisedButton(
+                    child: Text('Done'),
+                    onPressed: () {
+                      setState(() {
+                        text = input.text;
+                      });
+                    },
+                    color: Colors.blue,
+                    textColor: Colors.white,
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 70,
+              ),
+              Text(
+                text,
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-      floatingActionButton: new FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: new Icon(Icons.add),
       ),
     );
   }

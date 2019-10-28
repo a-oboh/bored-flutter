@@ -4,26 +4,25 @@
 // find child widgets in the widget tree, read text, and verify that the values of widget properties
 // are correct.
 
+import 'package:Play_with_me/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:test_app/main.dart';
-
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('Input Is printed on screen', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(new MyApp());
+    await tester.pumpWidget(MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Find the button widget.
+    expect(find.byType(RaisedButton), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    // find text field, enter text and build frame.
+    expect(find.byKey(Key('textfield')), findsOneWidget);
+    await tester.pump();
+    await tester.enterText(find.byType(TextField), 'The test input.');
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify that text is printed on screen.
+    expect(find.text('The test input.'), findsOneWidget);
   });
 }
