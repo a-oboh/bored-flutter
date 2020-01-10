@@ -4,8 +4,8 @@ class DrawerProvider extends ChangeNotifier {
   bool openDrawer = false;
 
   void changeDrawerState() {
-    openDrawer = true;
-
+    openDrawer = !openDrawer;
+    
     notifyListeners();
   }
 }
