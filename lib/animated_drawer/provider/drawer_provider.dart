@@ -8,4 +8,10 @@ class DrawerProvider extends ChangeNotifier {
     
     notifyListeners();
   }
+
+  void closeDrawer() {
+    openDrawer = false;
+    
+    notifyListeners();
+  }
 }

@@ -72,11 +72,9 @@ class _DrawerWidgetState extends State<DrawerWidget>
                 scale: scaleAnimation,
                 child: GestureDetector(
                   onTap: () {
-                    drawProvider.changeDrawerState();
+                    drawProvider.closeDrawer();
 
-                    drawProvider.openDrawer == true
-                        ? _animationController.forward()
-                        : _animationController.reverse();
+                    _animationController.reverse();
                   },
                   child: Material(
                     color: Colors.blue,
@@ -85,9 +83,38 @@ class _DrawerWidgetState extends State<DrawerWidget>
                         ? BorderRadius.all(Radius.circular(15))
                         : BorderRadius.all(Radius.circular(0)),
                     child: Container(
-                      // color: Colors.blue,
                       child: ListView(
-                        children: <Widget>[],
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: AnimatedCrossFade(
+                              crossFadeState: drawProvider.openDrawer == true
+                                  ? CrossFadeState.showSecond
+                                  : CrossFadeState.showFirst,
+                              duration: Duration(milliseconds: 200),
+                              firstChild: IconButton(
+                                icon: Icon(Icons.menu),
+                                onPressed: () {
+                                  drawProvider.changeDrawerState();
+
+                                  drawProvider.openDrawer == true
+                                      ? _animationController.forward()
+                                      : _animationController.reverse();
+                                },
+                              ),
+                              secondChild: IconButton(
+                                icon: Icon(Icons.cancel),
+                                onPressed: () {
+                                  drawProvider.changeDrawerState();
+
+                                  drawProvider.openDrawer == true
+                                      ? _animationController.forward()
+                                      : _animationController.reverse();
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
